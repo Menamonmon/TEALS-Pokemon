@@ -20,7 +20,7 @@ class Attack(object):
         random_chance = rd.randint(0, 100)
         damage = 0
         if random_chance <= self.accuracy:
-            damage = self.power
+            damage = rd.randint(int(self.power/10), 20)
         else:
             print('\nThis attack was not accurate. It missed the enemy.\n')
 
