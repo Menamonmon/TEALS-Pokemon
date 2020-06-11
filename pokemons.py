@@ -1,19 +1,6 @@
 from attacks import *
 from inputFunctions import *
 
-POKEMONS = {
-    'Grass': (GrassPokemon('Bulbasoar', 60, 40),
-              GrassPokemon('Bellsprout', 40, 60),
-              GrassPokemon('Oddish', 50, 50)),
-    'Fire': ( FirePokemon('Charmainder', 25, 70),
-              FirePokemon('Ninetails', 30, 50),
-              FirePokemon('Ponyta', 40, 60)),
-    'Water':( WaterPokemon('Squirtle', 80, 20),
-              WaterPokemon('Psyduck', 70, 40),
-              WaterPokemon('Polywag', 50, 50))
-
-}
-
 class Pokemon(object):
 
     def __init__(self, name, hp, max_ap, pok_type='normal'):   
@@ -68,7 +55,7 @@ class Pokemon(object):
             self.hp = 0
             print(f'The Pokemon {self.name} is dead :(')
             self.dead = True
-        return self.dead
+        # return self.dead
 
     
 class GrassPokemon(Pokemon):
@@ -87,6 +74,20 @@ class WaterPokemon(Pokemon):
 
     def __init__(self, name, hp, max_ap):
         super().__init__(name, hp, max_ap, "Water")
+
+
+POKEMONS = {
+    'Grass': (GrassPokemon('Bulbasoar', 60, 40),
+              GrassPokemon('Bellsprout', 40, 60),
+              GrassPokemon('Oddish', 50, 50)),
+    'Fire': ( FirePokemon('Charmainder', 25, 70),
+              FirePokemon('Ninetails', 30, 50),
+              FirePokemon('Ponyta', 40, 60)),
+    'Water':( WaterPokemon('Squirtle', 80, 20),
+              WaterPokemon('Psyduck', 70, 40),
+              WaterPokemon('Polywag', 50, 50))
+
+}
 
 def attack_test(): 
     pok1 = WaterPokemon("Polywag", 50, 50)
