@@ -33,7 +33,8 @@ def take_command(prompt, correct_values):
     while True:
         answer = input(prompt).lower().strip()
         if answer not in correct_values:
-            print('Invalid response. Your response must be one of the following:\n     {}'.format(*correct_values))
+            print(f'\nInvalid response. Your response must be one of the following:')
+            print("    ", *correct_values)
             continue
         
         return answer
