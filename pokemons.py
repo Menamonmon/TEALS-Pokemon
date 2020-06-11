@@ -36,6 +36,7 @@ class Pokemon(object):
         ap = chosen_attack.damage(enemy)
         print(f'\n{user} is attacking. {self.name} used the attack {chosen_attack.name} and inflicted {ap} damage.\n')
         enemy.take_damage(ap)
+        return ap
 
     def heal(self):
         if self.hp >= 20:
