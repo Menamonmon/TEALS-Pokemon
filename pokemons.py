@@ -12,6 +12,10 @@ class Pokemon(object):
         self.dead = False
         self.attacks  = TypeAttack(self.pok_type) if self.pok_type != 'normal' else None
 
+    @property
+    def has_full_health(self):
+        return self.hp == self.def_hp
+        
     def show(self, index=0):
         print(f'{index}) A {self.pok_type} Pokemon:')
         for prop in ("name", "hp", "max_ap"):
@@ -89,6 +93,18 @@ POKEMONS = {
               WaterPokemon('Polywag', 50, 50))
 
 }
+
+POKELIST = [  GrassPokemon('Bulbasoar', 60, 40),
+              GrassPokemon('Bellsprout', 40, 60),
+              GrassPokemon('Oddish', 50, 50),
+              FirePokemon('Charmainder', 25, 70),
+              FirePokemon('Ninetails', 30, 50),
+              FirePokemon('Ponyta', 40, 60),
+
+              WaterPokemon('Squirtle', 80, 20),
+              WaterPokemon('Psyduck', 70, 40),
+              WaterPokemon('Polywag', 50, 50),
+              ]
 
 def attack_test(): 
     pok1 = WaterPokemon("Polywag", 50, 50)
