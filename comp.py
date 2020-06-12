@@ -30,7 +30,7 @@ class Computer(User):
         return True  
     
     def turn(self):
-        command_list = self.COMMANDS
+        command_list = copy(self.COMMANDS)
         command_list.remove("stats")
         if self.current_pok.dead:
             return self.switch()

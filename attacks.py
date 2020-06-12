@@ -1,4 +1,5 @@
 import random as rd
+from copy import copy
 
 class Attack(object):
 

@@ -33,9 +33,7 @@ class Pokemon(object):
                 attack.show(1)
 
     def attack(self, user, enemy):
-        print('\nThese are the available attacks: \n')
-        self.attacks.list_attacks()
-        attack_index = take_number('Type the number of the attack that you want to choose: ', 1, len(self.attacks.attacks))[0] - 1
+        attack_index = rd.randint(0, 2)
         chosen_attack = self.attacks[attack_index]
         ap = chosen_attack.damage(enemy)
         print(f'\n{user} is attacking. {self.name} used the attack {chosen_attack.name} and inflicted {ap} damage.\n')
