@@ -1,7 +1,7 @@
 from pokemons import *
 
 class User(object):
-    COMMANDS = ["switch", "heal", "attack", "stats"]
+    COMMANDS = ["switch", "heal", "attack", "stats", "enemy-stats"]
 
     def __init__(self, name, enemy=None):
         self.name = name
@@ -13,12 +13,13 @@ class User(object):
 
         self.set_pokemons()
 
-    def show_my_pokemons(self, pok_list=None):
+    def show_pokemons(self, pok_list=None):
         if not pok_list:
             pok_list = self.pokemons
 
         for index, pok in enumerate(pok_list, start=1):
-            pok.show(f"    {index}")
+            starring = "***" if hasattr(self, "current_pok") and self.current_pok == pok else "   "   
+            pok.show(f" {starring}{index}")
 
     def set_pokemons(self):
         for pok_grp_num, pokemons in enumerate(POKEMONS.items()):
@@ -28,8 +29,9 @@ class User(object):
                 pokemon.show(f'    {index}')
                 print()
 
-        indices = take_number("Please type the corresponding numbers for the Pokemons that you want to choose: ", 1, len(POKELIST), ",", 3)
+        indices = take_number("Please type the corresponding numbers for the Pokemons that you want to choose: ", 1, len(POKELIST), ",", 2)
         chosen_pokemons = [POKELIST[index-1] for index in indices]
+        [POKELIST.remove(pok) for pok in chosen_pokemons]
         print('Here are the Pokemons that you have chosen:\n')
         self.pokemons = chosen_pokemons
 
@@ -41,14 +43,17 @@ class User(object):
             self.has_lost = True
             return False
         
-        self.show_my_pokemons()
+        self.show_pokemons()
 
         current_pok_index = take_number("\nWhich Pokemon of the above do you want to choose as your current Pokemon: ", 1, len(POKELIST))[0] - 1
-        self.current_pok = self.pokemons[current_pok_index]        
-        
+        prev_pok = self.current_pok if hasattr(self, 'current_pok') else None
+        self.current_pok = self.pokemons[current_pok_index] 
+        if self.current_pok == prev_pok:
+            return False
+
         if in_game:
             print(f'The player {self.name} has swtiched his current Pokemon to the following:\n')
-            self.current_pok.show()
+            self.current_pok.show("*")
 
         return True
 
@@ -60,8 +65,12 @@ class User(object):
     def stats(self):
         print(f'Here are the stats for {self.name}')
         print('\nThese are your Pokemons: ')
-        self.show_my_pokemons()
+        self.show_pokemons()
         print(f'Your current score is {self.score}.')
+
+    def enemy_stats(self):
+        if self.enemy: self.enemy.stats()
+        else: return 
     
     def turn(self):
         self.filter_pokemons()
@@ -78,7 +87,13 @@ class User(object):
             Type the command here: """, self.COMMANDS)
 
             if command == "switch":
-                return self.switch()
+                prev_pok = self.current_pok
+                val = self.switch()
+                if self.current_pok == prev_pok:
+                    print('You need to choose another Pokemon than your current one.')
+                    continue 
+
+                return val
 
             elif command == "stats":
                 self.stats()
@@ -89,11 +104,16 @@ class User(object):
                 if not is_possible:
                     continue
                     
+                print(f'The Player {self.name} has healed his Pokemon ({self.current_pok.name}) by 20 HP and his health is {self.current_pok.hp}')
                 return is_possible
 
             elif command == "attack":
                 self.score += self.current_pok.attack(self.name, self.enemy.current_pok)
                 return 
+
+            elif command == 'enemy-stats':
+                self.enemy_stats()
+                continue
 
             else:
                 raise Exception(f'The command "{command}" is not in the list of commands')

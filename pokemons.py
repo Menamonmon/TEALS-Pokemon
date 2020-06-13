@@ -14,7 +14,7 @@ class Pokemon(object):
 
     @property
     def has_full_health(self):
-        return self.hp == self.def_hp
+        return self.hp >= self.def_hp
         
     def show(self, index=0):
         print(f'{index}) A {self.pok_type} Pokemon:')
@@ -36,13 +36,17 @@ class Pokemon(object):
         attack_index = rd.randint(0, 2)
         chosen_attack = self.attacks[attack_index]
         ap = chosen_attack.damage(enemy)
-        print(f'\n{user} is attacking. {self.name} used the attack {chosen_attack.name} and inflicted {ap} damage.\n')
+        if not ap:
+            print(f"{self.name}'s attack was not successful and it did no damage.")
+            return ap
+
+        print(f'\n{user} is attacking. {self.name} used the attack {chosen_attack.name} and inflicted {ap} damage against {enemy.name}.\n')
         enemy.take_damage(ap)
         return ap
 
     def heal(self):
-        if self.hp >= 20:
-            print("This Pokemon has full health and can not be healed anymore.")
+        if self.hp >= self.def_hp:
+            print(f"This Pokemon has full health and can not be healed anymore. His health is {self.hp}")
             return False 
        
         else:
