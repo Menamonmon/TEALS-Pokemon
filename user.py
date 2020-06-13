@@ -84,6 +84,8 @@ class User(object):
             heal  : heals the current Pokemon by 20 HP
             attack: attacks the current Pokemon of your enemy (damage value is random)
             switch: change the current Pokemon to another one
+            enemy-stats: displays the stats of your enemy including all of its
+                         Pokemons, current Pokemon, and its score
             Type the command here: """, self.COMMANDS)
 
             if command == "switch":
